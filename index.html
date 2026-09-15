@@ -72,6 +72,9 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
 }
 .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .section-head h2{font-size:30px;margin:0}
+.view{display:none}.view.active{display:block}
+.shelf{margin:0 0 34px}.shelf-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
+.shelf-head h3{margin:0;font-size:22px;letter-spacing:-.5px}.shelf-count{font-size:13px;color:var(--muted)}
 .pill{display:inline-block;background:#e8e3dc;border-radius:999px;padding:6px 11px;font-size:13px;color:#555;margin-left:8px}
 .look-card{
   background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;
@@ -575,8 +578,8 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
     <div class="brand">lookin</div>
     <div class="tagline">TU PLACARD, MÁS SIMPLE</div>
     <nav>
-      <button class="active">⌂ Inicio</button>
-      <button onclick="toast('Mi placard: próxima pantalla')">▣ Mi placard</button>
+      <button id="navHome" class="active" onclick="showView('home')">⌂ Inicio</button>
+      <button id="navPlacard" onclick="showView('placard')">▣ Mi placard</button>
       <button onclick="openGarmentModal()">＋ Crear prenda</button>
       <button onclick="toast('Outfits: próxima pantalla')">♙ Outfits</button>
       <button onclick="toast('Calendario: próxima pantalla')">▦ Calendario</button>
@@ -586,6 +589,7 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
   </aside>
 
   <main>
+    <section id="homeView" class="view active">
     <div class="top">
       <div>
         <h1>Hola,<br>¿qué te ponés hoy?</h1>
@@ -609,7 +613,7 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
     </div>
 
     <div class="quick">
-      <button onclick="toast('Abrir placard')" aria-label="Ver mi placard">
+      <button onclick="showView('placard')" aria-label="Ver mi placard">
         <span class="quick-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none">
             <rect x="3.5" y="4" width="17" height="16" rx="3" stroke="currentColor" stroke-width="1.7"/>
@@ -653,8 +657,12 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
       </button>
     </div>
 
+    </section>
+
+    <section id="placardView" class="view">
     <div class="section-head">
       <h2>Tu placard</h2>
+      <button class="primary" onclick="openGarmentModal()">Agregar prenda</button>
     </div>
 
     <div id="emptyPlacard" class="look-card" style="display:block;text-align:center;padding:55px 25px;">
@@ -666,7 +674,8 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
       <button class="primary" onclick="openGarmentModal()">Agregar mi primera prenda</button>
     </div>
 
-    <div id="garmentGrid" class="garment-grid"></div>
+    <div id="garmentShelves"></div>
+    </section>
   </main>
 </div>
 
@@ -1008,10 +1017,10 @@ async function loadGarments(){
 
 async function renderGarments(){
   const items = await loadGarments();
-  const grid = document.getElementById("garmentGrid");
+  const shelves = document.getElementById("garmentShelves");
   const empty = document.getElementById("emptyPlacard");
 
-  grid.innerHTML = "";
+  shelves.innerHTML = "";
 
   if(items.length === 0){
     empty.style.display = "block";
@@ -1019,8 +1028,27 @@ async function renderGarments(){
   }
 
   empty.style.display = "none";
-
+  const shelfOrder = ["Remera","Camisa","Chomba","Buzo","Campera","Pantalon","Short","Calzado","Accesorio"];
+  const groups = new Map();
   items.forEach((g, i) => {
+    const shelf = g.category || "Sin categoría";
+    if(!groups.has(shelf)) groups.set(shelf, []);
+    groups.get(shelf).push({g, i});
+  });
+  const orderedShelves = [...groups.keys()].sort((a,b) => {
+    const ai = shelfOrder.indexOf(a), bi = shelfOrder.indexOf(b);
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi) || a.localeCompare(b, "es");
+  });
+
+  orderedShelves.forEach(shelfName => {
+    const shelf = document.createElement("section");
+    shelf.className = "shelf";
+    const rows = groups.get(shelfName);
+    shelf.innerHTML = `<div class="shelf-head"><h3>${escapeHtml(shelfName)}</h3><span class="shelf-count">${rows.length} ${rows.length === 1 ? "prenda" : "prendas"}</span></div>`;
+    const grid = document.createElement("div");
+    grid.className = "garment-grid";
+
+    rows.forEach(({g, i}) => {
     const card = document.createElement("div");
     card.className = "garment-card";
 
@@ -1054,7 +1082,20 @@ async function renderGarments(){
     `;
 
     grid.appendChild(card);
+    });
+    shelf.appendChild(grid);
+    shelves.appendChild(shelf);
   });
+}
+
+function showView(view){
+  const isPlacard = view === "placard";
+  document.getElementById("homeView").classList.toggle("active", !isPlacard);
+  document.getElementById("placardView").classList.toggle("active", isPlacard);
+  document.getElementById("navHome").classList.toggle("active", !isPlacard);
+  document.getElementById("navPlacard").classList.toggle("active", isPlacard);
+  if(isPlacard) renderGarments();
+  window.scrollTo({top:0, behavior:"smooth"});
 }
 
 function openViewGarment(index){
@@ -1370,7 +1411,7 @@ document.getElementById("garmentForm").addEventListener("submit", async e => {
 
     closeGarmentModal();
     resetGarmentForm();
-    await renderGarments();
+    showView("placard");
     toast(wasEditing ? "Artículo guardado ✓" : "Prenda agregada ✓");
   }catch(err){
     console.error(err);
