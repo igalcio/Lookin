@@ -32,6 +32,7 @@ nav button{
   all:unset;cursor:pointer;padding:13px 14px;border-radius:11px;
   font-weight:600;color:#eee
 }
+.nav-icon{display:inline-flex;width:17px;height:17px;vertical-align:-3px;margin-right:7px}.nav-icon svg{width:100%;height:100%}
 nav button:hover, nav button.active{background:#343434}
 .quote{margin-top:auto;color:#c8c8c8;font-style:italic;padding:12px;line-height:1.5}
 main{padding:34px 36px 50px}
@@ -75,6 +76,12 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
 .view{display:none}.view.active{display:block}
 .shelf{margin:0 0 34px}.shelf-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .shelf-head h3{margin:0;font-size:22px;letter-spacing:-.5px}.shelf-count{font-size:13px;color:var(--muted)}
+.placard-map{position:relative;width:min(900px,100%);aspect-ratio:1.48;margin:8px auto 18px;border-radius:28px;background:linear-gradient(135deg,#fffdf9,#eee7de);overflow:hidden;border:1px solid var(--border)}
+.placard-map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.map-line{stroke:#8a8178;stroke-width:1.45;stroke-linecap:round;opacity:.82}.map-dot{fill:#fffdf9;stroke:#1d1d1d;stroke-width:1.8}
+.map-core,.map-node{position:absolute;transform:translate(-50%,-50%);border:0;cursor:pointer;font:inherit;color:var(--text)}
+.map-core{left:50%;top:50%;width:108px;height:108px;border-radius:50%;background:#1d1d1d;color:#fff;display:grid;place-items:center;box-shadow:0 12px 28px rgba(0,0,0,.18);z-index:2}.map-core svg{position:static;width:58px;height:58px}
+.map-node{width:88px;z-index:3;background:transparent;display:flex;flex-direction:column;align-items:center;gap:7px}.map-node-icon{width:52px;height:52px;border-radius:50%;background:#fffdf9;border:1.5px solid #1d1d1d;display:grid;place-items:center;box-shadow:0 5px 12px rgba(40,30,18,.1);transition:transform .18s ease,background .18s ease}.map-node:hover .map-node-icon{transform:scale(1.08);background:#1d1d1d;color:#fff}.map-node svg{width:25px;height:25px}.map-node-label{font-weight:750;font-size:12px;line-height:1.05;text-align:center}.map-node-count{font-size:10px;color:var(--muted);margin-top:-4px}
+.category-detail{display:none}.category-detail.show{display:block}.back-map{border:0;background:transparent;padding:5px 0;font:inherit;font-weight:700;cursor:pointer;color:var(--text)}
 .pill{display:inline-block;background:#e8e3dc;border-radius:999px;padding:6px 11px;font-size:13px;color:#555;margin-left:8px}
 .look-card{
   background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;
@@ -570,6 +577,7 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
   .garment-card{padding:8px}
   .garment-card h4{font-size:13px}
 }
+@media(max-width:700px){.placard-map{aspect-ratio:1/1;min-height:420px;border-radius:22px}.map-core{width:88px;height:88px}.map-core svg{width:48px;height:48px}.map-node{width:68px;gap:5px}.map-node-icon{width:42px;height:42px}.map-node svg{width:21px;height:21px}.map-node-label{font-size:10px}.map-node-count{font-size:9px}}
 </style>
 </head>
 <body>
@@ -579,7 +587,7 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
     <div class="tagline">TU PLACARD, MÁS SIMPLE</div>
     <nav>
       <button id="navHome" class="active" onclick="showView('home')">⌂ Inicio</button>
-      <button id="navPlacard" onclick="showView('placard')">▣ Mi placard</button>
+      <button id="navPlacard" onclick="showView('placard')"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><circle cx="32" cy="32" r="10"/><path d="M32 20V9m-8.5 14-9-5m26 5 9-5M23.5 41l-9 7m26-7 9 7M32 44v11"/><circle cx="32" cy="7" r="2"/><circle cx="12.5" cy="17" r="2"/><circle cx="51.5" cy="17" r="2"/><circle cx="12.5" cy="49" r="2"/><circle cx="51.5" cy="49" r="2"/><circle cx="32" cy="57" r="2"/></svg></span>Mi placard</button>
       <button onclick="openGarmentModal()">＋ Crear prenda</button>
       <button onclick="toast('Outfits: próxima pantalla')">♙ Outfits</button>
       <button onclick="toast('Calendario: próxima pantalla')">▦ Calendario</button>
@@ -615,10 +623,7 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
     <div class="quick">
       <button onclick="showView('placard')" aria-label="Ver mi placard">
         <span class="quick-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="3.5" y="4" width="17" height="16" rx="3" stroke="currentColor" stroke-width="1.7"/>
-            <path d="M12 4v16M7.5 8h1M15.5 8h1" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-          </svg>
+          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><circle cx="32" cy="32" r="10"/><path d="M32 20V9m-8.5 14-9-5m26 5 9-5M23.5 41l-9 7m26-7 9 7M32 44v11"/><circle cx="32" cy="7" r="2"/><circle cx="12.5" cy="17" r="2"/><circle cx="51.5" cy="17" r="2"/><circle cx="12.5" cy="49" r="2"/><circle cx="51.5" cy="49" r="2"/><circle cx="32" cy="57" r="2"/></svg>
         </span>
         <strong>Placard</strong>
         <span class="small">Toda tu ropa</span>
@@ -665,6 +670,13 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
       <button class="primary" onclick="openGarmentModal()">Agregar prenda</button>
     </div>
 
+    <div id="placardMap"></div>
+    <div id="categoryDetail" class="category-detail">
+      <button class="back-map" onclick="closeCategory()">← Volver al placard</button>
+      <div class="shelf-head"><h3 id="categoryDetailTitle">Categoría</h3><span id="categoryDetailCount" class="shelf-count"></span></div>
+      <div id="garmentShelves" class="garment-grid"></div>
+    </div>
+
     <div id="emptyPlacard" class="look-card" style="display:block;text-align:center;padding:55px 25px;">
       <div style="font-size:42px;margin-bottom:14px">👕</div>
       <h3 style="font-size:26px;margin:0 0 10px">Tu placard está vacío</h3>
@@ -674,7 +686,6 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
       <button class="primary" onclick="openGarmentModal()">Agregar mi primera prenda</button>
     </div>
 
-    <div id="garmentShelves"></div>
     </section>
   </main>
 </div>
@@ -1017,76 +1028,36 @@ async function loadGarments(){
 
 async function renderGarments(){
   const items = await loadGarments();
-  const shelves = document.getElementById("garmentShelves");
+  const map = document.getElementById("placardMap");
   const empty = document.getElementById("emptyPlacard");
-
-  shelves.innerHTML = "";
-
+  map.innerHTML = "";
   if(items.length === 0){
     empty.style.display = "block";
     return;
   }
-
   empty.style.display = "none";
-  const shelfOrder = ["Remera","Camisa","Chomba","Buzo","Campera","Pantalon","Short","Calzado","Accesorio"];
   const groups = new Map();
   items.forEach((g, i) => {
-    const shelf = g.category || "Sin categoría";
-    if(!groups.has(shelf)) groups.set(shelf, []);
-    groups.get(shelf).push({g, i});
+    const category = g.category || "Sin categoría";
+    if(!groups.has(category)) groups.set(category, []);
+    groups.get(category).push({g, i});
   });
-  const orderedShelves = [...groups.keys()].sort((a,b) => {
-    const ai = shelfOrder.indexOf(a), bi = shelfOrder.indexOf(b);
-    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi) || a.localeCompare(b, "es");
-  });
-
-  orderedShelves.forEach(shelfName => {
-    const shelf = document.createElement("section");
-    shelf.className = "shelf";
-    const rows = groups.get(shelfName);
-    shelf.innerHTML = `<div class="shelf-head"><h3>${escapeHtml(shelfName)}</h3><span class="shelf-count">${rows.length} ${rows.length === 1 ? "prenda" : "prendas"}</span></div>`;
-    const grid = document.createElement("div");
-    grid.className = "garment-grid";
-
-    rows.forEach(({g, i}) => {
-    const card = document.createElement("div");
-    card.className = "garment-card";
-
-    const imageHtml = g.image
-      ? `<div class="card-image-wrap" onclick="openViewGarment(${i})"><img src="${g.image}" alt="${escapeHtml(g.name)}"></div>`
-      : `<div class="card-image-wrap" onclick="openViewGarment(${i})"><div style="height:180px;background:#f7f3ed;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:38px">👕</div></div>`;
-
-    card.innerHTML = `
-      ${imageHtml}
-      <h4>${escapeHtml(g.name)}</h4>
-      <p>${escapeHtml(g.category)}${g.subcategory ? " · "+escapeHtml(g.subcategory) : ""}</p>
-      <p>${escapeHtml(g.color)}${g.style ? " · "+escapeHtml(g.style) : ""}</p>
-      ${g.warmth !== null && g.warmth !== undefined ? `<p>Abriga ${g.warmth}/5</p>` : ``}
-
-      <div class="card-actions">
-        <button class="icon-btn edit" type="button" title="Editar" aria-label="Editar prenda" onclick="event.stopPropagation(); openEditGarment(${i})">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 20h4.2L19 9.2a2.1 2.1 0 0 0 0-3L17.8 5a2.1 2.1 0 0 0-3 0L4 15.8V20Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="m13.7 6.1 4.2 4.2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </button>
-        <button class="icon-btn danger" type="button" title="Eliminar" aria-label="Eliminar prenda" onclick="event.stopPropagation(); requestDeleteGarment(${i})">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M4 7h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="M9 7V4.8c0-.44.36-.8.8-.8h4.4c.44 0 .8.36.8.8V7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-            <path d="m6.7 7 .7 12c.03.56.5 1 1.06 1h7.08c.56 0 1.03-.44 1.06-1l.7-12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10 11v5M14 11v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    `;
-
-    grid.appendChild(card);
-    });
-    shelf.appendChild(grid);
-    shelves.appendChild(shelf);
-  });
+  renderPlacardMap(groups);
 }
+
+function categoryIcon(category){
+  const icon={"Calzado":'<path d="M5 14c3 0 4-3 5-6l2 3c1 2 3 3 6 3l1 4H5v-4Z"/>',"Pantalon":'<path d="M8 4h8l-1 16h-3l-1-7-1 7H7L8 4Z"/>',"Accesorio":'<circle cx="12" cy="12" r="6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'}[category]||'<path d="m7 7 5-3 5 3 2 3-3 2v9H8v-9L5 10l2-3Z"/><path d="M9.5 7.2c.6.8 1.45 1.2 2.5 1.2s1.9-.4 2.5-1.2"/>';
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">${icon}</svg>`;
+}
+function placardLogo(){return '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"><circle cx="32" cy="32" r="10"/><path d="M32 20V9m-8.5 14-9-5m26 5 9-5M23.5 41l-9 7m26-7 9 7M32 44v11"/><circle cx="32" cy="7" r="2"/><circle cx="12.5" cy="17" r="2"/><circle cx="51.5" cy="17" r="2"/><circle cx="12.5" cy="49" r="2"/><circle cx="51.5" cy="49" r="2"/><circle cx="32" cy="57" r="2"/></svg>'}
+function radialPosition(i){const slots=[[19,25],[45,12],[75,21],[88,50],[72,79],[42,88],[16,73],[9,48],[25,52],[61,37]];return slots[i]||[10+((i*29)%80),10+((i*47)%80)]}
+function renderPlacardMap(groups){
+  const map=document.getElementById("placardMap"), categories=[...groups.keys()], lines=categories.map((name,i)=>{const[x,y]=radialPosition(i);return `<line class="map-line" x1="50" y1="50" x2="${x}" y2="${y}"/><circle class="map-dot" cx="${x}" cy="${y}" r="1.2"/>`}).join("");
+  map.innerHTML=`<div class="placard-map"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg><button class="map-core" onclick="closeCategory()">${placardLogo()}</button>${categories.map((name,i)=>{const[x,y]=radialPosition(i),count=groups.get(name).length;return `<button class="map-node" style="left:${x}%;top:${y}%" onclick='openCategory(${JSON.stringify(name)})'><span class="map-node-icon">${categoryIcon(name)}</span><span class="map-node-label">${escapeHtml(name)}</span><span class="map-node-count">${count} ${count===1?'prenda':'prendas'}</span></button>`}).join("")}</div>`;
+}
+function openCategory(category){const rows=garmentsCache.map((g,i)=>({g,i})).filter(({g})=>(g.category||"Sin categoría")===category),grid=document.getElementById("garmentShelves");document.getElementById("categoryDetailTitle").textContent=category;document.getElementById("categoryDetailCount").textContent=`${rows.length} ${rows.length===1?'prenda':'prendas'}`;grid.innerHTML="";rows.forEach(({g,i})=>grid.appendChild(createGarmentCard(g,i)));document.getElementById("placardMap").style.display="none";document.getElementById("categoryDetail").classList.add("show")}
+function closeCategory(){document.getElementById("categoryDetail").classList.remove("show");document.getElementById("placardMap").style.display="block"}
+function createGarmentCard(g,i){const card=document.createElement("div");card.className="garment-card";const image=g.image?`<div class="card-image-wrap" onclick="openViewGarment(${i})"><img src="${g.image}" alt="${escapeHtml(g.name)}"></div>`:`<div class="card-image-wrap"><div style="height:180px;background:#f7f3ed;border-radius:10px;display:grid;place-items:center;font-size:38px">👕</div></div>`;card.innerHTML=`${image}<h4>${escapeHtml(g.name)}</h4><p>${escapeHtml(g.color)}</p><div class="card-actions"><button class="icon-btn edit" onclick="openEditGarment(${i})">✎</button><button class="icon-btn danger" onclick="requestDeleteGarment(${i})">×</button></div>`;return card}
 
 function showView(view){
   const isPlacard = view === "placard";
