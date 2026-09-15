@@ -50,14 +50,17 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
 .small{font-size:13px;color:var(--muted)}
 .time{font-size:34px;font-weight:800;margin:6px 0 3px}
 .temp{font-size:28px;font-weight:800;margin:3px 0}
-.quick{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin:28px 0 34px}
+.quick{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:28px 0 34px}
 .quick button{
-  background:var(--card);border:1px solid var(--border);border-radius:16px;
-  padding:22px 14px;cursor:pointer;font:inherit
+  min-width:0;padding:10px 3px 8px;cursor:pointer;font:inherit;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  background:transparent;border:0;border-radius:12px;box-shadow:none;
 }
-.quick strong{display:block;font-size:16px;margin:8px 0 3px}
+.quick button:hover{background:rgba(0,0,0,.035)}
+.quick strong{display:block;margin:0;font-size:12px;line-height:1.1;font-weight:650;letter-spacing:-.15px;white-space:nowrap}
+.quick .small{display:none}
 .quick-icon{
-  display:none;
+  display:block;
   width:28px;
   height:28px;
   color:#171717;
