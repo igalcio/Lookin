@@ -649,6 +649,18 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
 @keyframes dq-thumb-bounce{0%{transform:scale(.8)}40%{transform:translateY(-4px) scale(1.22)}100%{transform:scale(1)}}
 @keyframes dq-check-in{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
 @media(prefers-reduced-motion:reduce){.dq-animate .dq-thumb,.dq-animate .dq-check{animation:none}.dq-button{transition:none}}
+
+/* Inicio: primer paso para planear un look */
+.quote-carousel{padding:28px 12px 8px;font-style:normal;min-height:135px;display:flex;align-items:flex-end}
+.quote-carousel p{margin:0;color:#dedbd5;font-size:14px;line-height:1.6;letter-spacing:-.1px;transition:opacity .35s ease,transform .35s ease}
+.quote-carousel p.is-changing{opacity:0;transform:translateY(6px)}
+.home-planner{margin:40px 0 0;background:var(--card);border:1px solid var(--border);border-radius:24px;padding:30px;max-width:860px}
+.home-planner h2{font-size:32px;letter-spacing:-1.1px;margin:0 0 7px}.home-planner p{color:var(--muted);margin:0;font-size:15px}
+.plan-types{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:28px}.plan-type{border:1px solid var(--border);background:#fff;border-radius:16px;padding:18px 8px;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;color:var(--text);font:600 13px inherit;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}.plan-type:hover{transform:translateY(-3px);border-color:#bdb4aa;box-shadow:0 9px 20px rgba(40,30,18,.07)}.plan-type svg{width:26px;height:26px;stroke-width:1.55}
+.home-wardrobe{margin:18px 0 0;display:flex;align-items:center;justify-content:space-between;gap:15px;max-width:860px;padding:18px 4px;color:var(--muted);font-size:13px}.home-wardrobe strong{display:block;color:var(--text);font-size:15px;margin-bottom:3px}.text-link{border:0;background:transparent;color:var(--text);font:600 13px inherit;cursor:pointer;padding:8px}
+.next-plan{display:none;margin-top:24px;padding:18px 20px;border-radius:18px;background:#1e1e1e;color:#fff;max-width:860px;align-items:center;justify-content:space-between;gap:18px}.next-plan.show{display:flex}.next-plan .small{color:#c9c5bf}.next-plan strong{font-size:17px}.next-plan button{border:1px solid #777;background:#fff;color:#1e1e1e;border-radius:999px;padding:10px 14px;font:600 12px inherit;cursor:pointer}
+.plan-modal{max-width:520px}.plan-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:16px 0}.plan-choice{border:1px solid var(--border);background:#fff;border-radius:12px;padding:12px;cursor:pointer;font:600 13px inherit}.plan-choice.selected{background:#1e1e1e;color:#fff;border-color:#1e1e1e}.plan-note{margin-top:12px}.plan-note textarea{width:100%;min-height:78px;padding:12px;border:1px solid var(--border);border-radius:11px;font:inherit;resize:vertical}
+@media(max-width:700px){.home-planner{padding:22px 16px;margin-top:28px;border-radius:20px}.home-planner h2{font-size:26px}.plan-types{grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}.plan-type{padding:15px 6px;font-size:12px}.plan-type svg{width:23px;height:23px}.home-wardrobe{padding:16px 2px}.next-plan.show{align-items:flex-start;flex-direction:column}.quote-carousel{display:none}}
 </style>
 </head>
 <body>
@@ -664,10 +676,8 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
       <button onclick="toast('Calendario: próxima pantalla')">▦ Calendario</button>
       <button onclick="toast('Ajustes: próxima pantalla')">⚙ Ajustes</button>
     </nav>
-    <section class="quote daily-quote" aria-label="Frase del día">
-      <h2>Frase del día</h2>
-      <p id="dailyQuoteText"></p>
-      <div id="dailyQuoteActions" class="dq-actions"></div>
+    <section class="quote quote-carousel" aria-label="Frases">
+      <p id="quoteCarouselText"></p>
     </section>
   </aside>
 
@@ -695,47 +705,19 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
       </div>
     </div>
 
-    <div class="quick">
-      <button onclick="showView('placard')" aria-label="Ver mi placard">
-        <span class="quick-icon" aria-hidden="true">
-          <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"><circle cx="32" cy="32" r="10"/><path d="M32 20V9m-8.5 14-9-5m26 5 9-5M23.5 41l-9 7m26-7 9 7M32 44v11"/><circle cx="32" cy="7" r="2"/><circle cx="12.5" cy="17" r="2"/><circle cx="51.5" cy="17" r="2"/><circle cx="12.5" cy="49" r="2"/><circle cx="51.5" cy="49" r="2"/><circle cx="32" cy="57" r="2"/></svg>
-        </span>
-        <strong>Placard</strong>
-        <span class="small">Toda tu ropa</span>
-      </button>
-
-      <button onclick="openGarmentModal()" aria-label="Agregar prenda">
-        <span class="quick-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <strong>Agregar</strong>
-        <span class="small">Sumá algo nuevo</span>
-      </button>
-
-      <button onclick="toast('Ver outfits')" aria-label="Ver outfits">
-        <span class="quick-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M9.2 6.2 12 4l2.8 2.2L18 7.5l-2.1 3.2v8.1H8.1v-8.1L6 7.5l3.2-1.3Z" stroke="currentColor" stroke-width="1.65" stroke-linejoin="round"/>
-            <path d="M9.5 7.2c.6.8 1.45 1.2 2.5 1.2s1.9-.4 2.5-1.2" stroke="currentColor" stroke-width="1.65" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <strong>Outfits</strong>
-        <span class="small">Tus combinaciones</span>
-      </button>
-
-      <button onclick="toast('Abrir calendario')" aria-label="Mi calendario">
-        <span class="quick-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <rect x="3.5" y="5.5" width="17" height="15" rx="3" stroke="currentColor" stroke-width="1.7"/>
-            <path d="M7.5 3.8v3.4M16.5 3.8v3.4M3.8 9.2h16.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
-          </svg>
-        </span>
-        <strong>Calendario</strong>
-        <span class="small">Qué hacés cada día</span>
-      </button>
+    <div class="home-planner">
+      <h2>¿Qué tenés hoy?</h2>
+      <p>Elegí el contexto y empecemos a armar el look.</p>
+      <div class="plan-types">
+        <button class="plan-type" onclick="openPlanPlanner('Oficina')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V8h16v12M9 8V4h6v4M8 13h1m6 0h1M8 17h1m6 0h1"/></svg>Oficina</button>
+        <button class="plan-type" onclick="openPlanPlanner('Salida')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8m0-12.8L5.6 18.4"/></svg>Salida</button>
+        <button class="plan-type" onclick="openPlanPlanner('Cena')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M7 3v8M4 3v5a3 3 0 0 0 6 0V3m-3 8v10M17 3v18m0-18c3 3 3 7 0 10"/></svg>Cena</button>
+        <button class="plan-type" onclick="openPlanPlanner('Entrenar')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 9v6m3-9v12m6-12v12m3-9v6M3 11v2m18-2v2"/></svg>Entrenar</button>
+        <button class="plan-type" onclick="openPlanPlanner('Otro plan')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M5 12h14"/></svg>Otro plan</button>
+      </div>
     </div>
+    <div id="nextPlan" class="next-plan"></div>
+    <div class="home-wardrobe"><div><strong id="homeGarmentCount">Tu placard</strong><span id="homeGarmentSub">Cargando prendas...</span></div><button class="text-link" onclick="showView('placard')">Ver placard →</button></div>
 
     </section>
 
@@ -766,6 +748,21 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
   </main>
 </div>
 
+
+<div id="planModal" class="modal-backdrop" onclick="closePlanOnBackdrop(event)">
+  <div class="modal plan-modal">
+    <div class="modal-head"><h3>Planear outfit</h3><button class="close-btn" onclick="closePlanPlanner()">×</button></div>
+    <form id="planForm">
+      <div class="field"><label>Plan</label><div id="planChoices" class="plan-choices"></div></div>
+      <div class="form-grid">
+        <div class="field"><label for="planDate">Fecha</label><input id="planDate" type="date" required></div>
+        <div class="field"><label for="planTime">Hora</label><input id="planTime" type="time" required></div>
+      </div>
+      <div class="field plan-note"><label for="planNote">Detalle opcional</label><textarea id="planNote" placeholder="Ej: cena al aire libre, algo formal"></textarea></div>
+      <div class="modal-actions"><button type="button" class="secondary" onclick="closePlanPlanner()">Cancelar</button><button class="primary" type="submit">Guardar plan</button></div>
+    </form>
+  </div>
+</div>
 
 <div id="garmentModal" class="modal-backdrop" onclick="backdropClose(event)">
   <div class="modal">
@@ -1133,10 +1130,11 @@ function lkInstallLogos(){
  document.querySelector('[aria-label="Ver mi placard"] .quick-icon').innerHTML=placardLogo();
 }
 async function renderGarments(){
- const request=++renderSerial;
- const items=await loadGarments();
- if(request!==renderSerial)return;
- const groups=new Map();
+  const request=++renderSerial;
+  const items=await loadGarments();
+  if(request!==renderSerial)return;
+  renderHomeStatus();
+  const groups=new Map();
  items.forEach((g,i)=>{const category=g.category||"Sin categoría";if(!groups.has(category))groups.set(category,[]);groups.get(category).push({g,i})});
  document.getElementById("emptyPlacard").style.display=items.length?"none":"block";
  renderPlacardMap(groups);
@@ -1330,66 +1328,42 @@ const dailyQuotes = [
 "Estar disponible no es lo mismo que estar presente.",
 "Algunas respuestas llegan cuando dejamos espacio para escucharlas."
 ].map((text,index)=>({id:"q"+String(index+1).padStart(3,"0"),text}));
-let shownQuoteId=null;
-function quoteForDate(now=new Date()){
- const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/Argentina/Buenos_Aires",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now);
- const part=t=>Number(parts.find(p=>p.type===t).value);
- const day=Math.floor(Date.UTC(part("year"),part("month")-1,part("day"))/86400000);
- return dailyQuotes[((day-20711)%dailyQuotes.length+dailyQuotes.length)%dailyQuotes.length];
+let quoteBag=[],lastQuoteId=null,quoteCarouselTimer=null;
+function nextCarouselQuote(){
+  if(!quoteBag.length){
+    quoteBag=dailyQuotes.map(q=>q.id).sort(()=>Math.random()-.5);
+    if(quoteBag[quoteBag.length-1]===lastQuoteId) [quoteBag[0],quoteBag[quoteBag.length-1]]=[quoteBag[quoteBag.length-1],quoteBag[0]];
+  }
+  const id=quoteBag.pop(); lastQuoteId=id;
+  return dailyQuotes.find(q=>q.id===id);
 }
-function quoteVoteKey(id){return "lookin.quote.vote.v1."+id}
-function readQuoteVote(id){
- const value=localStorage.getItem(quoteVoteKey(id));
- return value==="like"||value==="dislike"?value:null;
+function advanceQuoteCarousel(){
+  const el=document.getElementById("quoteCarouselText"); if(!el)return;
+  el.classList.add("is-changing");
+  setTimeout(()=>{const quote=nextCarouselQuote();el.textContent="“"+quote.text+"”";el.classList.remove("is-changing")},260);
 }
-function thumbSvg(vote){
- return '<svg class="dq-thumb '+(vote==="dislike"?'dq-down':'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10v10H4V10h4Zm0 0 4-6c1-1 3 0 2.5 2L14 9h4.5c1.2 0 2 1 1.7 2.2l-1.5 7c-.2 1-1 1.8-2 1.8H8"/></svg>';
+advanceQuoteCarousel(); quoteCarouselTimer=setInterval(advanceQuoteCarousel,90000);
+
+const planTypes=["Oficina","Salida","Cena","Entrenar","Otro plan"];
+let selectedPlanType="";
+function localDateValue(date=new Date()){const offset=date.getTimezoneOffset();return new Date(date.getTime()-offset*60000).toISOString().slice(0,10)}
+function getPlans(){try{return JSON.parse(localStorage.getItem("lookin.plans.v1")||"[]")}catch{return []}}
+function savePlans(plans){localStorage.setItem("lookin.plans.v1",JSON.stringify(plans))}
+function openPlanPlanner(type=""){
+  selectedPlanType=type||"";document.getElementById("planDate").value=localDateValue();document.getElementById("planTime").value="20:00";document.getElementById("planNote").value="";
+  renderPlanChoices();document.getElementById("planModal").classList.add("show");
 }
-function paintQuoteVote(id,animate=false){
- const area=document.getElementById("dailyQuoteActions");
- area.replaceChildren();
- let vote;try{vote=readQuoteVote(id)}catch{vote=null}
- if(vote){
-  const result=document.createElement("span");
-  result.className="dq-voted"+(animate?" dq-animate":"");
-  result.setAttribute("role","status");
-  result.setAttribute("aria-label",vote==="like"?"Marcaste Me gusta. Voto guardado.":"Marcaste No me gusta. Voto guardado.");
-  result.innerHTML=thumbSvg(vote)+'<svg class="dq-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
-  area.append(result);return;
- }
- ["like","dislike"].forEach(vote=>{
-  const button=document.createElement("button");button.type="button";button.className="dq-button";
-  button.setAttribute("aria-label",vote==="like"?"Me gusta":"No me gusta");
-  button.title=vote==="like"?"Me gusta":"No me gusta";
-  button.innerHTML=thumbSvg(vote);button.onclick=()=>voteForQuote(id,vote);
-  area.append(button);
- });
+function renderPlanChoices(){const root=document.getElementById("planChoices");root.innerHTML="";planTypes.forEach(type=>{const b=document.createElement("button");b.type="button";b.className="plan-choice"+(selectedPlanType===type?" selected":"");b.textContent=type;b.onclick=()=>{selectedPlanType=type;renderPlanChoices()};root.append(b)})}
+function closePlanPlanner(){document.getElementById("planModal").classList.remove("show")}
+function closePlanOnBackdrop(e){if(e.target.id==="planModal")closePlanPlanner()}
+function renderHomeStatus(){
+  const count=garmentsCache.length;document.getElementById("homeGarmentCount").textContent=count?`${count} ${count===1?"prenda":"prendas"} en tu placard`:"Tu placard";document.getElementById("homeGarmentSub").textContent=count?"Listas para combinar":"Empezá agregando tu primera prenda";
+  const now=new Date(),plans=getPlans().filter(p=>new Date(`${p.date}T${p.time}`)>=now).sort((a,b)=>`${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`));
+  const card=document.getElementById("nextPlan");if(!plans.length){card.classList.remove("show");card.innerHTML="";return}
+  const plan=plans[0],date=new Date(`${plan.date}T${plan.time}`),day=new Intl.DateTimeFormat("es-AR",{weekday:"long",day:"numeric",month:"short"}).format(date);
+  card.innerHTML=`<div><div class="small">PRÓXIMO PLAN</div><strong>${escapeHtml(plan.type)} · ${day} · ${plan.time}</strong>${plan.note?`<div class="small">${escapeHtml(plan.note)}</div>`:""}</div><button type="button" onclick="toast('El generador de outfits es el próximo paso')">Elegir outfit</button>`;card.classList.add("show");
 }
-function refreshDailyQuote(){
- const quote=quoteForDate();
- if(shownQuoteId!==quote.id){
-  shownQuoteId=quote.id;
-  document.getElementById("dailyQuoteText").textContent="“"+quote.text+"”";
-  paintQuoteVote(quote.id);
- }
-}
-async function voteForQuote(id,vote){
- if(vote!=="like"&&vote!=="dislike")return;
- if(quoteForDate().id!==id){refreshDailyQuote();return}
- const save=()=>{
-  try{
-   if(readQuoteVote(id)){if(shownQuoteId===id)paintQuoteVote(id);return}
-   localStorage.setItem(quoteVoteKey(id),vote);
-   if(shownQuoteId===id)paintQuoteVote(id,true);
-  }catch{toast("No se pudo guardar el voto. Revisá el almacenamiento del navegador.")}
- };
- // Serializes votes across tabs in browsers that support Web Locks.
- if(navigator.locks){await navigator.locks.request(quoteVoteKey(id),save)}else save();
-}
-refreshDailyQuote();
-setInterval(refreshDailyQuote,15000);
-document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshDailyQuote()});
-window.addEventListener("storage",event=>{if(shownQuoteId&&event.key===quoteVoteKey(shownQuoteId))paintQuoteVote(shownQuoteId)});
+document.getElementById("planForm").addEventListener("submit",e=>{e.preventDefault();if(!selectedPlanType){toast("Elegí el tipo de plan");return}const plans=getPlans();plans.push({id:crypto.randomUUID?.()||String(Date.now()),type:selectedPlanType,date:document.getElementById("planDate").value,time:document.getElementById("planTime").value,note:document.getElementById("planNote").value.trim()});savePlans(plans);closePlanPlanner();renderHomeStatus();toast("Plan guardado ✓")});
 
 
 function showView(view){
