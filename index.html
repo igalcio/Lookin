@@ -1,4 +1,6 @@
+<!DOCTYPE html>
 <html lang="es">
+<!-- LOOKIN PLACARD ATELIER V2 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,12 +78,65 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
 .view{display:none}.view.active{display:block}
 .shelf{margin:0 0 34px}.shelf-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
 .shelf-head h3{margin:0;font-size:22px;letter-spacing:-.5px}.shelf-count{font-size:13px;color:var(--muted)}
-.placard-map{position:relative;width:min(940px,100%);aspect-ratio:1.56;margin:10px auto 22px;border-radius:32px;background:radial-gradient(circle at 50% 48%,#fff 0,#faf9f7 37%,#f4f1ed 100%);overflow:hidden;border:1px solid rgba(30,30,30,.08);box-shadow:0 1px 1px rgba(0,0,0,.02),inset 0 1px rgba(255,255,255,.85)}
-.placard-map svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}.map-line{stroke:#b9b4ad;stroke-width:.62;stroke-linecap:round;opacity:.85}.map-dot{fill:#fff;stroke:#a6a098;stroke-width:.6}
-.map-core,.map-node{position:absolute;transform:translate(-50%,-50%);border:0;cursor:pointer;font:inherit;color:var(--text);-webkit-tap-highlight-color:transparent}
-.map-core{left:50%;top:50%;width:92px;height:92px;border-radius:50%;background:linear-gradient(145deg,#323232,#151515);color:#fff;display:grid;place-items:center;box-shadow:0 10px 28px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.18);z-index:2;transition:transform .35s cubic-bezier(.2,.8,.2,1)}.map-core:hover{transform:translate(-50%,-50%) scale(1.045)}.map-core svg{position:static;width:48px;height:48px}
-.map-node{width:60px;height:60px;z-index:3;background:transparent;display:grid;place-items:center}.map-node-icon{width:58px;height:58px;border-radius:50%;background:rgba(255,255,255,.9);border:1px solid rgba(24,24,24,.13);display:grid;place-items:center;box-shadow:0 5px 14px rgba(44,37,29,.09),inset 0 1px #fff;transition:transform .35s cubic-bezier(.2,.8,.2,1),background .25s ease,box-shadow .35s ease}.map-node:hover .map-node-icon,.map-node.is-selected .map-node-icon{transform:scale(1.12);background:#1d1d1f;color:#fff;box-shadow:0 10px 22px rgba(0,0,0,.18)}.map-node svg{width:25px;height:25px}.map-tooltip{position:absolute;top:72px;left:50%;transform:translateX(-50%) translateY(-4px);padding:7px 10px;border-radius:12px;background:rgba(31,31,31,.92);color:#fff;font-size:12px;font-weight:650;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s ease,transform .25s cubic-bezier(.2,.8,.2,1);box-shadow:0 7px 18px rgba(0,0,0,.14)}.map-tooltip small{font-size:10px;font-weight:500;opacity:.72;margin-left:4px}.map-node:hover .map-tooltip,.map-node.is-selected .map-tooltip{opacity:1;transform:translateX(-50%) translateY(0)}
-.category-detail{display:none}.category-detail.show{display:block}.back-map{border:0;background:transparent;padding:5px 0;font:inherit;font-weight:700;cursor:pointer;color:var(--text)}
+
+/* LOOKIN — Placard Atelier v2. Isolated component styles. */
+#placardView{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#252525}
+.lk-header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:12px 0 30px}
+.lk-eyebrow{font-size:10px;letter-spacing:2.2px;color:#8c867e;font-weight:600;text-transform:uppercase;margin:0 0 10px}
+.lk-header h2{font-size:clamp(28px,3vw,40px);font-weight:600;letter-spacing:-1.5px;line-height:1.1;margin:0}
+.lk-add{display:inline-flex;align-items:center;gap:9px;border:1px solid #d9d4cd;border-radius:100px;padding:12px 18px;background:#fffdf9;color:#242424;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;transition:background .2s,transform .2s}
+.lk-add:hover{background:white;transform:translateY(-2px)}
+.lk-add svg{width:16px;height:16px}
+.lk-home{border:0;background:none;padding:0;color:#77716a;font:inherit;font-size:12px;cursor:pointer;margin-bottom:14px}
+.lk-stage{isolation:isolate;position:relative;min-height:540px;height:clamp(500px,62vh,700px);border-radius:30px;border:1px solid #e4e0d9;background:radial-gradient(ellipse at 48% 45%,#fffefb 0%,#f8f6f2 65%,#f1eee8 100%);overflow:hidden}
+.lk-stage-caption{position:absolute;top:25px;left:28px;color:#a29b91;font-size:10px;letter-spacing:2px;text-transform:uppercase;pointer-events:none}
+.lk-wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.lk-wire{stroke:#c6beb3;stroke-width:1;vector-effect:non-scaling-stroke;transition:opacity .3s,stroke .3s}
+.lk-node,.lk-center{position:absolute;transform:translate(-50%,-50%);padding:0;display:grid;place-items:center;border:0;background:none;color:#373532;-webkit-tap-highlight-color:transparent}
+.lk-node{width:78px;height:78px;cursor:pointer;z-index:2;outline-offset:7px;border-radius:50%}
+.lk-disc{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#fff,#f9f7f3);border:1px solid #e1dcd3;box-shadow:0 3px 8px #3b2b1010,inset 0 2px 2px #fff;transition:transform .38s cubic-bezier(.2,.8,.2,1),box-shadow .38s,background .3s,color .3s,opacity .3s;animation:lk-arrive .55s both;animation-delay:var(--delay,0ms)}
+.lk-glyph{display:block;position:static;width:30px;height:30px;flex:none;pointer-events:none}
+.lk-center{left:50%;top:50%;width:104px;height:104px;border-radius:50%;background:linear-gradient(145deg,#44423e,#252422);color:#fffefa;box-shadow:0 12px 30px #2c261a1a,inset 0 1px #ffffff30;z-index:1}
+.lk-center .lk-glyph{width:43px;height:43px}
+.lk-center-caption{position:absolute;top:calc(100% + 13px);color:#898278;font-size:9px;letter-spacing:2.5px;font-weight:500;white-space:nowrap}
+.lk-tip{position:absolute;top:calc(100% + 13px);left:50%;transform:translate(-50%,-5px);display:flex;flex-direction:column;align-items:center;gap:4px;min-width:100px;max-width:145px;padding:9px 12px;border-radius:12px;background:#fffdf9f5;box-shadow:0 4px 16px #332a1610;border:1px solid #e8e2d8;color:#35322d;opacity:0;pointer-events:none;transition:opacity .22s,transform .25s;font-size:12px;font-weight:600;text-align:center}
+.lk-tip small{font-size:10px;font-weight:400;color:#8a8277}
+.lk-node.lk-selected{z-index:4}
+.lk-node.lk-selected .lk-disc{transform:scale(1.08);background:#fff;box-shadow:0 12px 30px #3b2b101a;border-color:#b9ae9f}
+.lk-node.lk-selected .lk-tip,.lk-node:focus-visible .lk-tip{opacity:1;transform:translate(-50%,0)}
+.lk-node:focus-visible{outline:2px solid #887e70}
+.lk-stage.lk-focused .lk-node:not(.lk-selected) .lk-disc{opacity:.48}
+.lk-stage.lk-focused .lk-wire{opacity:.22}
+.lk-stage.lk-focused .lk-wire.lk-selected{opacity:1;stroke:#827565}
+.lk-footer{display:flex;align-items:center;justify-content:space-between;gap:15px;color:#948d82;font-size:11px;padding:18px 4px 24px}
+.lk-footer strong{font-weight:500;color:#61594e}
+.category-detail{display:none;animation:lk-page .35s both}
+.category-detail.show{display:block}
+.back-map{display:inline-flex;align-items:center;gap:7px;background:none;border:0;color:#6d665c;font:inherit;font-size:12px;padding:8px 0;margin-bottom:22px;cursor:pointer}
+#categoryDetail .shelf-head{margin-bottom:22px;align-items:center}
+#categoryDetailTitle{font-size:28px;font-weight:550;letter-spacing:-.8px;margin:0}
+#categoryDetail .garment-card{border:1px solid #e3ddd4;border-radius:20px;padding:12px;background:#fffdf9}
+#categoryDetail .card-image-wrap{display:block;width:100%;border:0;padding:0;border-radius:12px;cursor:pointer;overflow:hidden;background:#f6f3ee}
+.lk-no-photo{display:grid;place-items:center;aspect-ratio:1;color:#b1a99e}
+.lk-no-photo .lk-glyph{width:52px;height:52px}
+#categoryDetail .card-actions .lk-glyph{width:18px;height:18px}
+#categoryDetail .garment-card:focus-within .card-actions{opacity:1;transform:none}
+@keyframes lk-arrive{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:scale(1)}}
+@keyframes lk-page{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media(max-width:600px){
+ .lk-header{margin:6px 0 20px;gap:8px}.lk-header h2{font-size:30px}
+ .lk-add{padding:11px 13px;font-size:12px}.lk-eyebrow{font-size:9px}
+ .lk-stage{height:520px;min-height:520px;border-radius:24px}
+ .lk-stage-caption{left:20px;top:22px;font-size:9px}
+ .lk-node{width:60px;height:60px}.lk-glyph{width:26px;height:26px}
+ .lk-center{width:78px;height:78px}.lk-center .lk-glyph{width:34px;height:34px}
+ .lk-center-caption{font-size:8px}.lk-tip{min-width:85px;max-width:116px;padding:7px 8px;font-size:11px}
+ .lk-footer{font-size:10px;align-items:start;line-height:1.6}
+}
+@media(prefers-reduced-motion:reduce){
+ #placardView *,#placardView *::before{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
+
 .pill{display:inline-block;background:#e8e3dc;border-radius:999px;padding:6px 11px;font-size:13px;color:#555;margin-left:8px}
 .look-card{
   background:var(--card);border:1px solid var(--border);border-radius:18px;padding:16px;
@@ -577,7 +632,6 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
   .garment-card{padding:8px}
   .garment-card h4{font-size:13px}
 }
-@media(max-width:700px){.placard-map{aspect-ratio:1/1;min-height:420px;border-radius:24px}.map-core{width:82px;height:82px}.map-core svg{width:42px;height:42px}.map-node{width:54px;height:54px}.map-node-icon{width:52px;height:52px}.map-node svg{width:23px;height:23px}.map-tooltip{top:63px;font-size:11px;padding:6px 8px}}
 </style>
 </head>
 <body>
@@ -665,9 +719,10 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
     </section>
 
     <section id="placardView" class="view">
-    <div class="section-head">
-      <h2>Tu placard</h2>
-      <button class="primary" onclick="openGarmentModal()">Agregar prenda</button>
+    <button class="lk-home" onclick="showView('home')">← Inicio</button>
+    <div class="lk-header">
+      <div><p class="lk-eyebrow">Un espacio para tu estilo</p><h2>Mi placard.</h2></div>
+      <button class="lk-add" onclick="openGarmentModal()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Agregar prenda</button>
     </div>
 
     <div id="placardMap"></div>
@@ -1026,55 +1081,169 @@ async function loadGarments(){
   return garmentsCache;
 }
 
-async function renderGarments(){
-  const items = await loadGarments();
-  const map = document.getElementById("placardMap");
-  const empty = document.getElementById("emptyPlacard");
-  map.innerHTML = "";
-  if(items.length === 0){
-    empty.style.display = "block";
-    return;
-  }
-  empty.style.display = "none";
-  const groups = new Map();
-  items.forEach((g, i) => {
-    const category = g.category || "Sin categoría";
-    if(!groups.has(category)) groups.set(category, []);
-    groups.get(category).push({g, i});
-  });
-  renderPlacardMap(groups);
-}
 
-function categoryIcon(category){
-  const icon={
-    "Remera":'<path d="m7 7 5-3 5 3 2 3-3 2v9H8v-9L5 10l2-3Z"/><path d="M9.5 7.2c.6.8 1.45 1.2 2.5 1.2s1.9-.4 2.5-1.2"/>',
-    "Camisa":'<path d="m8 4 4 3 4-3 3 4-3 2v9H8v-9L5 8l3-4Z"/><path d="M10 7h4M12 7v10"/>',
-    "Chomba":'<path d="m7 7 5-3 5 3 2 3-3 2v9H8v-9L5 10l2-3Z"/><path d="M12 7v4"/>',
-    "Buzo":'<path d="m8 6 4-2 4 2 3 4-3 2v7H8v-7L5 10l3-4Z"/><path d="M9 14h6"/>',
-    "Campera":'<path d="m8 5 4-2 4 2 3 4-3 2v8H8v-8L5 9l3-4Z"/><path d="M12 7v12M9 10h6"/>',
-    "Pantalon":'<path d="M8 4h8l-1 16h-3l-1-7-1 7H7L8 4Z"/>',"Short":'<path d="M7 5h10l1 10h-5l-1-4-1 4H6L7 5Z"/>',
-    "Calzado":'<path d="M5 14c3 0 4-3 5-6l2 3c1 2 3 3 6 3l1 4H5v-4Z"/>',"Accesorio":'<circle cx="12" cy="12" r="6"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/>'
-  }[category]||'<circle cx="12" cy="12" r="7"/><path d="M8 12h8M12 8v8"/>';
-  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">${icon}</svg>`;
-}
-function placardLogo(){return '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.7" stroke-linecap="round"><circle cx="32" cy="32" r="10"/><path d="M32 20V9m-8.5 14-9-5m26 5 9-5M23.5 41l-9 7m26-7 9 7M32 44v11"/><circle cx="32" cy="7" r="2"/><circle cx="12.5" cy="17" r="2"/><circle cx="51.5" cy="17" r="2"/><circle cx="12.5" cy="49" r="2"/><circle cx="51.5" cy="49" r="2"/><circle cx="32" cy="57" r="2"/></svg>'}
-function radialPosition(i){const slots=[[19,25],[45,12],[75,21],[88,50],[72,79],[42,88],[16,73],[9,48],[25,52],[61,37]];return slots[i]||[10+((i*29)%80),10+((i*47)%80)]}
+let activeCategory = null;
 let selectedMapCategory = null;
+let radialResizeObserver = null;
+let renderSerial = 0;
+const lkKey = value => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const lkNames = {remera:"Remeras",camisa:"Camisas",chomba:"Chombas",buzo:"Buzos",campera:"Camperas",pantalon:"Pantalones",short:"Shorts",calzado:"Calzado",accesorio:"Accesorios"};
+function lkLabel(category){return lkNames[lkKey(category)] || category}
+function lkSvg(paths){return '<svg class="lk-glyph" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+paths+'</svg>'}
+function categoryIcon(category){
+ const paths={
+  remera:'<path d="m11 6-7 4 3 6 4-2v13h10V14l4 2 3-6-7-4"/><path d="M11 6c0 6 10 6 10 0"/>',
+  camisa:'<path d="m11 5-5 4-3 15 5 1 3-12v15h10V13l3 12 5-1-3-15-5-4M16 10v18"/><path d="m11 5 5 5-4 3-2-6m11-2-5 5 4 3 2-6M18.5 17h1"/>',
+  chomba:'<path d="m11 6-7 4 3 6 4-2v13h10V14l4 2 3-6-7-4"/><path d="m11 6 5 4 5-4m-10 0 1 7 4-3 4 3 1-7m-5 4v7"/>',
+  buzo:'<path d="M11 7c0-7 10-7 10 0l5 3 3 15-5 1-3-12v13H11V14L8 26l-5-1 3-15 5-3Z"/><path d="M11 7c2 4 8 4 10 0M12 24h8l-1-4h-6l-1 4Zm2-13v4m4-4v4"/>',
+  campera:'<path d="m11 6 2-3h6l2 3 5 4 3 16-5 1-3-13v14H11V14L8 27l-5-1 3-16 5-4Z"/><path d="M16 8v20m-5-22 5 2 5-2M12 20l2-2m6 2-2-2"/>',
+  pantalon:'<path d="M9 4h14l2 24h-7l-2-14-2 14H7L9 4Z"/><path d="M9 8h14M16 5v5m-6-1-1 3m13-3 1 3"/>',
+  short:'<path d="M8 7h16l2 18h-8l-2-10-2 10H6L8 7Z"/><path d="M8 11h16M16 8v4M7 22h7m4 0h7"/>',
+  calzado:'<path d="M4 18V11l5 3 4-5 5 8 8 3c2 1 3 2 3 4H4v-6Z"/><path d="M4 21h23M15 14l-3 2m6 1-3 2"/>',
+  accesorio:'<rect x="9" y="10" width="14" height="13" rx="4"/><path d="m12 10 1-7h6l1 7m-8 13 1 6h6l1-6m-4-10v4l3 2"/>'
+ };
+ return lkSvg(paths[lkKey(category)] || '<path d="m16 4 11 6v12l-11 6-11-6V10l11-6Zm-11 6 11 6 11-6M16 16v12"/>');
+}
+function placardLogo(){
+ return lkSvg('<circle cx="16" cy="16" r="4.5"/><path d="M16 11.5V6m3-3-1.6 8.7m2.6 2.8 7-4m-6.6 8.3 4.3 4.2m-9.3-2.5-1 8m-2-9-7 7m5.5-11-6.5-3"/><circle cx="16" cy="5" r="1"/><circle cx="19.2" cy="2" r="1"/><circle cx="28" cy="10" r="1"/><circle cx="25.5" cy="23.5" r="1"/><circle cx="14.4" cy="29.4" r="1"/><circle cx="4.5" cy="27" r="1"/><circle cx="3.5" cy="12" r="1"/>');
+}
+function lkInstallLogos(){
+ document.querySelector("#navPlacard .nav-icon").innerHTML=placardLogo();
+ document.querySelector('[aria-label="Ver mi placard"] .quick-icon').innerHTML=placardLogo();
+}
+async function renderGarments(){
+ const request=++renderSerial;
+ const items=await loadGarments();
+ if(request!==renderSerial)return;
+ const groups=new Map();
+ items.forEach((g,i)=>{const category=g.category||"Sin categoría";if(!groups.has(category))groups.set(category,[]);groups.get(category).push({g,i})});
+ document.getElementById("emptyPlacard").style.display=items.length?"none":"block";
+ renderPlacardMap(groups);
+ if(activeCategory && groups.has(activeCategory))openCategory(activeCategory,false);
+ else closeCategory(false);
+}
+function lkPositions(w,n){
+ const small=w<550,size=small?60:78,core=small?78:104;
+ let height=small?Math.max(520,n*68):Math.max(580,n*40);
+ for(let attempt=0;attempt<8;attempt++,height+=160){
+  const rx=w/2-(small?52:100),ry=height/2-105;
+  const points=Array.from({length:n},(_,i)=>{
+   const step=Math.PI*2/n,jitter=[-.12,.10,-.08,.13,-.04,.06,-.1,.04][i%8];
+   const angle=-2.48+i*step+jitter*step,radius=[.94,.82,1,.88,.97,.85,.92][i%7];
+   return {x:w/2+Math.cos(angle)*rx*radius,y:height/2+Math.sin(angle)*ry*radius};
+  });
+  for(let pass=0;pass<250;pass++){
+   let moved=false;
+   for(let i=0;i<n;i++){
+    const a=points[i],clear=(size+core)/2+22;
+    if(Math.abs(a.x-w/2)<clear && Math.abs(a.y-height/2)<clear){
+     a.y=height/2+(a.y<height/2?-clear:clear);moved=true;
+    }
+    for(let j=i+1;j<n;j++){
+     const b=points[j],gap=size+25;
+     if(Math.abs(a.x-b.x)<size+18 && Math.abs(a.y-b.y)<gap){
+      const direction=a.y<=b.y?-1:1,shift=(gap-Math.abs(a.y-b.y))/2+.1;
+      a.y+=direction*shift;b.y-=direction*shift;moved=true;
+     }
+    }
+    a.y=Math.max(80,Math.min(height-100,a.y));
+   }
+   if(!moved)return {height,points};
+  }
+ }
+ return {height,points:Array.from({length:n},(_,i)=>({x:i%2?w*.73:w*.27,y:85+i*105}))};
+}
 function renderPlacardMap(groups){
-  const map=document.getElementById("placardMap"), categories=[...groups.keys()], lines=categories.map((name,i)=>{const[x,y]=radialPosition(i);return `<line class="map-line" x1="50" y1="50" x2="${x}" y2="${y}"/><circle class="map-dot" cx="${x}" cy="${y}" r="1.2"/>`}).join("");
-  map.innerHTML=`<div class="placard-map"><svg viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg><button class="map-core" aria-label="Todo mi placard" onclick="closeCategory()">${placardLogo()}</button>${categories.map((name,i)=>{const[x,y]=radialPosition(i),count=groups.get(name).length;return `<button class="map-node" data-category="${escapeHtml(name)}" aria-label="${escapeHtml(name)}, ${count} prendas" style="left:${x}%;top:${y}%" onclick='handleMapNode(event,${JSON.stringify(name)})'><span class="map-node-icon">${categoryIcon(name)}</span><span class="map-tooltip">${escapeHtml(name)} <small>${count}</small></span></button>`}).join("")}</div>`;
+ radialResizeObserver?.disconnect();
+ const map=document.getElementById("placardMap");
+ selectedMapCategory=null;
+ map.replaceChildren();
+ if(!groups.size)return;
+ const stage=document.createElement("div");stage.className="lk-stage";
+ stage.innerHTML='<span class="lk-stage-caption">Tu colección</span><svg class="lk-wires" aria-hidden="true"></svg><div class="lk-center">'+placardLogo()+'<span class="lk-center-caption">LOOKIN</span></div>';
+ const footer=document.createElement("div");footer.className="lk-footer";
+ footer.innerHTML='<strong>'+garmentsCache.length+' prendas · '+groups.size+' categorías</strong><span class="lk-hint"></span>';
+ footer.querySelector(".lk-hint").textContent=matchMedia("(hover:none)").matches?"Un toque para descubrir. Otro para entrar.":"Explorá una categoría.";
+ map.append(stage,footer);
+ const categories=[...groups.keys()];
+ // First categories keep their order; every added category gets its own destination.
+ categories.forEach((name,i)=>{
+  const node=document.createElement("button");node.type="button";node.className="lk-node";
+  node.dataset.category=name;node.style.setProperty("--delay",Math.min(i*40,320)+"ms");
+  node.setAttribute("aria-label",lkLabel(name)+", "+groups.get(name).length+" prendas");
+  node.setAttribute("aria-expanded","false");
+  node.innerHTML='<span class="lk-disc">'+categoryIcon(name)+'</span><span class="lk-tip">'+escapeHtml(lkLabel(name))+'<small>'+groups.get(name).length+' '+(groups.get(name).length===1?"prenda":"prendas")+'</small></span>';
+  node.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse")lkSelect(stage,node)});
+  node.addEventListener("pointerleave",e=>{if(e.pointerType==="mouse")lkSelect(stage,null)});
+  node.addEventListener("focus",()=>{if(node.matches(":focus-visible"))lkSelect(stage,node)});
+  node.addEventListener("blur",()=>lkSelect(stage,null));
+  let lastPointer="mouse";
+  node.addEventListener("pointerdown",e=>lastPointer=e.pointerType);
+  node.addEventListener("click",e=>{
+   const touch=e.detail!==0 && (lastPointer==="touch"||lastPointer==="pen");
+   if(touch && selectedMapCategory!==name){lkSelect(stage,node);return}
+   openCategory(name);
+  });
+  stage.append(node);
+ });
+ stage.addEventListener("pointerdown",e=>{if(!e.target.closest(".lk-node"))lkSelect(stage,null)});
+ stage.addEventListener("keydown",e=>{if(e.key==="Escape")lkSelect(stage,null)});
+ const layout=()=>{
+  const w=stage.clientWidth;if(!w)return;
+  const arrangement=lkPositions(w,categories.length);
+  const h=arrangement.height;
+  stage.style.height=h+"px";stage.style.minHeight=h+"px";
+  const svg=stage.querySelector(".lk-wires");svg.setAttribute("viewBox","0 0 "+w+" "+h);svg.replaceChildren();
+  stage.querySelectorAll(".lk-node").forEach((node,i)=>{
+   const {x,y}=arrangement.points[i];
+   node.style.left=x+"px";node.style.top=y+"px";
+   const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+   line.classList.add("lk-wire");line.setAttribute("x1",w/2);line.setAttribute("y1",h/2);line.setAttribute("x2",x);line.setAttribute("y2",y);line.dataset.category=node.dataset.category;svg.append(line);
+  });
+ };
+ radialResizeObserver=new ResizeObserver(layout);radialResizeObserver.observe(stage);layout();
 }
-function handleMapNode(event,category){
-  const touch=window.matchMedia("(hover: none), (pointer: coarse)").matches;
-  if(!touch){openCategory(category);return;}
-  const node=event.currentTarget;
-  if(selectedMapCategory===category){openCategory(category);return;}
-  document.querySelectorAll(".map-node.is-selected").forEach(n=>n.classList.remove("is-selected"));
-  selectedMapCategory=category;node.classList.add("is-selected");
+function lkSelect(stage,node){
+ selectedMapCategory=node?.dataset.category||null;
+ stage.classList.toggle("lk-focused",!!node);
+ stage.querySelectorAll(".lk-node").forEach(n=>{n.classList.toggle("lk-selected",n===node);n.setAttribute("aria-expanded",String(n===node))});
+ stage.querySelectorAll(".lk-wire").forEach(n=>n.classList.toggle("lk-selected",!!node&&n.dataset.category===selectedMapCategory));
 }
-function openCategory(category){const rows=garmentsCache.map((g,i)=>({g,i})).filter(({g})=>(g.category||"Sin categoría")===category),grid=document.getElementById("garmentShelves");document.getElementById("categoryDetailTitle").textContent=category;document.getElementById("categoryDetailCount").textContent=`${rows.length} ${rows.length===1?'prenda':'prendas'}`;grid.innerHTML="";rows.forEach(({g,i})=>grid.appendChild(createGarmentCard(g,i)));document.getElementById("placardMap").style.display="none";document.getElementById("categoryDetail").classList.add("show")}
-function closeCategory(){selectedMapCategory=null;document.getElementById("categoryDetail").classList.remove("show");document.getElementById("placardMap").style.display="block"}
-function createGarmentCard(g,i){const card=document.createElement("div");card.className="garment-card";const image=g.image?`<div class="card-image-wrap" onclick="openViewGarment(${i})"><img src="${g.image}" alt="${escapeHtml(g.name)}"></div>`:`<div class="card-image-wrap"><div style="height:180px;background:#f7f3ed;border-radius:10px;display:grid;place-items:center;font-size:38px">👕</div></div>`;card.innerHTML=`${image}<h4>${escapeHtml(g.name)}</h4><p>${escapeHtml(g.color)}</p><div class="card-actions"><button class="icon-btn edit" onclick="openEditGarment(${i})">✎</button><button class="icon-btn danger" onclick="requestDeleteGarment(${i})">×</button></div>`;return card}
+function openCategory(category,focus=true){
+ activeCategory=category;
+ const rows=garmentsCache.map((g,i)=>({g,i})).filter(({g})=>(g.category||"Sin categoría")===category);
+ const title=document.getElementById("categoryDetailTitle");
+ title.textContent=lkLabel(category);title.tabIndex=-1;
+ document.getElementById("categoryDetailCount").textContent=rows.length+" "+(rows.length===1?"prenda":"prendas");
+ const grid=document.getElementById("garmentShelves");grid.replaceChildren();
+ rows.forEach(({g,i})=>grid.appendChild(createGarmentCard(g,i)));
+ document.getElementById("placardMap").style.display="none";
+ document.getElementById("categoryDetail").classList.add("show");
+ if(focus)title.focus({preventScroll:true});
+}
+function closeCategory(focus=true){
+ const previous=activeCategory;activeCategory=null;selectedMapCategory=null;
+ document.getElementById("categoryDetail").classList.remove("show");
+ document.getElementById("placardMap").style.display="block";
+ const stage=document.querySelector(".lk-stage");if(stage)lkSelect(stage,null);
+ if(focus&&previous)[...document.querySelectorAll(".lk-node")].find(n=>n.dataset.category===previous)?.focus({preventScroll:true});
+}
+function createGarmentCard(g,i){
+ const card=document.createElement("div");card.className="garment-card";
+ const image=document.createElement("button");image.type="button";image.className="card-image-wrap";image.setAttribute("aria-label","Ver "+g.name);image.onclick=()=>openViewGarment(i);
+ if(g.image){const img=document.createElement("img");img.src=g.image;img.alt=g.name||"Prenda";img.loading="lazy";image.append(img)}
+ else image.innerHTML='<span class="lk-no-photo">'+categoryIcon(g.category)+'</span>';
+ card.append(image);
+ const heading=document.createElement("h4");heading.textContent=g.name;card.append(heading);
+ const desc=document.createElement("p");desc.textContent=[g.color,g.subcategory,g.style].filter(Boolean).join(" · ");card.append(desc);
+ const actions=document.createElement("div");actions.className="card-actions";
+ [
+  ["edit","Editar prenda",'<path d="m7 22-1 5 5-1L26 11l-4-4L7 22ZM19 10l4 4"/>',()=>openEditGarment(i)],
+  ["danger","Eliminar prenda",'<path d="M7 9h18M12 9V5h8v4M9 9l1 18h12l1-18M14 13v10m4-10v10"/>',()=>requestDeleteGarment(i)]
+ ].forEach(([cls,label,path,fn])=>{const button=document.createElement("button");button.type="button";button.className="icon-btn "+cls;button.setAttribute("aria-label",label);button.innerHTML=lkSvg(path);button.onclick=fn;actions.append(button)});
+ card.append(actions);return card;
+}
+lkInstallLogos();
 
 function showView(view){
   const isPlacard = view === "placard";
@@ -1082,7 +1251,7 @@ function showView(view){
   document.getElementById("placardView").classList.toggle("active", isPlacard);
   document.getElementById("navHome").classList.toggle("active", !isPlacard);
   document.getElementById("navPlacard").classList.toggle("active", isPlacard);
-  if(isPlacard) renderGarments();
+  if(isPlacard){closeCategory(false);renderGarments();}
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
