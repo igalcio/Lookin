@@ -98,7 +98,7 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
 .lk-glyph{display:block;position:static;width:30px;height:30px;flex:none;pointer-events:none}
 .lk-center{left:50%;top:50%;width:104px;height:104px;border-radius:50%;background:linear-gradient(145deg,#44423e,#252422);color:#fffefa;box-shadow:0 12px 30px #2c261a1a,inset 0 1px #ffffff30;z-index:1}
 .lk-center .lk-glyph{width:43px;height:43px}
-.lk-center-caption{position:absolute;top:calc(100% + 13px);color:#898278;font-size:9px;letter-spacing:2.5px;font-weight:500;white-space:nowrap}
+
 .lk-tip{position:absolute;top:calc(100% + 13px);left:50%;transform:translate(-50%,-5px);display:flex;flex-direction:column;align-items:center;gap:4px;min-width:100px;max-width:145px;padding:9px 12px;border-radius:12px;background:#fffdf9f5;box-shadow:0 4px 16px #332a1610;border:1px solid #e8e2d8;color:#35322d;opacity:0;pointer-events:none;transition:opacity .22s,transform .25s;font-size:12px;font-weight:600;text-align:center}
 .lk-tip small{font-size:10px;font-weight:400;color:#8a8277}
 .lk-node.lk-selected{z-index:4}
@@ -130,7 +130,7 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
  .lk-stage-caption{left:20px;top:22px;font-size:9px}
  .lk-node{width:60px;height:60px}.lk-glyph{width:26px;height:26px}
  .lk-center{width:78px;height:78px}.lk-center .lk-glyph{width:34px;height:34px}
- .lk-center-caption{font-size:8px}.lk-tip{min-width:85px;max-width:116px;padding:7px 8px;font-size:11px}
+ .lk-tip{min-width:85px;max-width:116px;padding:7px 8px;font-size:11px}
  .lk-footer{font-size:10px;align-items:start;line-height:1.6}
 }
 @media(prefers-reduced-motion:reduce){
@@ -632,6 +632,23 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
   .garment-card{padding:8px}
   .garment-card h4{font-size:13px}
 }
+
+.daily-quote{padding:30px 12px 8px;font-style:normal}
+.daily-quote h2{font-size:10px;letter-spacing:1.8px;text-transform:uppercase;color:#999792;font-weight:500;margin:0 0 14px}
+.daily-quote p{font-size:14px;font-weight:400;line-height:1.65;letter-spacing:-.12px;margin:0;color:#e5e2db;text-wrap:pretty}
+.dq-actions{display:flex;align-items:center;gap:10px;min-height:38px;margin-top:18px}
+.dq-button{display:grid;place-items:center;width:36px;height:36px;border:1px solid #ffffff1c;background:#ffffff06;border-radius:50%;color:#aaa8a3;cursor:pointer;transition:color .2s,background .2s,transform .2s}
+.dq-button:hover{color:#fff;background:#ffffff12;transform:translateY(-2px)}
+.dq-button:focus-visible{outline:2px solid #e4dfd6;outline-offset:3px}
+.dq-thumb,.dq-check{display:block;width:18px;height:18px;position:static;flex:none}
+.dq-down{rotate:180deg}
+.dq-voted{display:inline-flex;align-items:center;gap:8px;color:#e4e0d8;height:36px;padding:0 10px}
+.dq-check{width:15px;height:15px;color:#a8c7a8}
+.dq-animate .dq-thumb{animation:dq-thumb-bounce .55s cubic-bezier(.2,.8,.2,1)}
+.dq-animate .dq-check{animation:dq-check-in .35s .35s both}
+@keyframes dq-thumb-bounce{0%{transform:scale(.8)}40%{transform:translateY(-4px) scale(1.22)}100%{transform:scale(1)}}
+@keyframes dq-check-in{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:scale(1)}}
+@media(prefers-reduced-motion:reduce){.dq-animate .dq-thumb,.dq-animate .dq-check{animation:none}.dq-button{transition:none}}
 </style>
 </head>
 <body>
@@ -647,7 +664,11 @@ h1{font-size:54px;line-height:.98;margin:10px 0 8px;letter-spacing:-2px}
       <button onclick="toast('Calendario: próxima pantalla')">▦ Calendario</button>
       <button onclick="toast('Ajustes: próxima pantalla')">⚙ Ajustes</button>
     </nav>
-    <div class="quote">“Menos decisiones.<br>Más tiempo para lo importante.”</div>
+    <section class="quote daily-quote" aria-label="Frase del día">
+      <h2>Frase del día</h2>
+      <p id="dailyQuoteText"></p>
+      <div id="dailyQuoteActions" class="dq-actions"></div>
+    </section>
   </aside>
 
   <main>
@@ -1105,7 +1126,7 @@ function categoryIcon(category){
  return lkSvg(paths[lkKey(category)] || '<path d="m16 4 11 6v12l-11 6-11-6V10l11-6Zm-11 6 11 6 11-6M16 16v12"/>');
 }
 function placardLogo(){
- return lkSvg('<circle cx="16" cy="16" r="4.5"/><path d="M16 11.5V6m3-3-1.6 8.7m2.6 2.8 7-4m-6.6 8.3 4.3 4.2m-9.3-2.5-1 8m-2-9-7 7m5.5-11-6.5-3"/><circle cx="16" cy="5" r="1"/><circle cx="19.2" cy="2" r="1"/><circle cx="28" cy="10" r="1"/><circle cx="25.5" cy="23.5" r="1"/><circle cx="14.4" cy="29.4" r="1"/><circle cx="4.5" cy="27" r="1"/><circle cx="3.5" cy="12" r="1"/>');
+ return lkSvg('<circle cx="16" cy="16" r="4.5"/><path d="M13.5 12.3 9.7 6.7M18.5 12.3l5-7.4M20.5 16h7M18.6 19.7l4.3 6.1M14.8 20.3l-2 7.4M11.8 17.6l-7 2.7M12 13.9l-7-3.6"/><circle cx="9" cy="5.7" r="1"/><circle cx="24.2" cy="4" r="1"/><circle cx="28.5" cy="16" r="1"/><circle cx="23.5" cy="26.7" r="1"/><circle cx="12.5" cy="28.7" r="1"/><circle cx="3.8" cy="20.7" r="1"/><circle cx="4" cy="9.8" r="1"/>');
 }
 function lkInstallLogos(){
  document.querySelector("#navPlacard .nav-icon").innerHTML=placardLogo();
@@ -1160,7 +1181,7 @@ function renderPlacardMap(groups){
  map.replaceChildren();
  if(!groups.size)return;
  const stage=document.createElement("div");stage.className="lk-stage";
- stage.innerHTML='<span class="lk-stage-caption">Tu colección</span><svg class="lk-wires" aria-hidden="true"></svg><div class="lk-center">'+placardLogo()+'<span class="lk-center-caption">LOOKIN</span></div>';
+ stage.innerHTML='<span class="lk-stage-caption">Tu colección</span><svg class="lk-wires" aria-hidden="true"></svg><div class="lk-center">'+placardLogo()+'</div>';
  const footer=document.createElement("div");footer.className="lk-footer";
  footer.innerHTML='<strong>'+garmentsCache.length+' prendas · '+groups.size+' categorías</strong><span class="lk-hint"></span>';
  footer.querySelector(".lk-hint").textContent=matchMedia("(hover:none)").matches?"Un toque para descubrir. Otro para entrar.":"Explorá una categoría.";
@@ -1244,6 +1265,132 @@ function createGarmentCard(g,i){
  card.append(actions);return card;
 }
 lkInstallLogos();
+
+// Daily quote: deterministic calendar rotation, midnight in Buenos Aires.
+// IDs are stable across bank additions; votes stay tied to the phrase.
+const dailyQuotes = [
+"La vida es lo que sucede cuando estás ocupado haciendo otros planes.",
+"Ojo por ojo y el mundo acabará ciego.",
+"Podrán cortar todas las flores, pero no podrán detener la primavera.",
+"No todo lo que merece tu atención hace ruido.",
+"A veces, comprender empieza por dejar de preparar la respuesta.",
+"El tiempo compartido no se mide solo en minutos.",
+"Una pregunta honesta puede abrir más puertas que una respuesta brillante.",
+"Hay silencios que acompañan y palabras que alejan.",
+"Lo que hoy parece definitivo también puede cambiar.",
+"No toda pausa es una renuncia.",
+"Escuchar es hacerle un lugar al mundo de otro.",
+"A veces cambiamos de rumbo porque por fin miramos el mapa.",
+"Una conversación puede empezar donde termina una certeza.",
+"El pasado explica muchas cosas; no decide todas.",
+"Hay días que se entienden mejor con un poco de distancia.",
+"No todo lo que crece se ve desde afuera.",
+"Lo sencillo también puede ser profundo.",
+"Una buena compañía deja espacio para ser uno mismo.",
+"El futuro no necesita ocupar todo el presente.",
+"Hay preguntas que mejoran con el tiempo.",
+"Una duda bien cuidada puede ser más fértil que una certeza.",
+"El mundo no termina donde termina nuestra experiencia.",
+"También elegimos con aquello a lo que dejamos de prestar atención.",
+"La memoria guarda detalles que el calendario olvida.",
+"A veces lo importante no llega primero.",
+"Se puede estar en desacuerdo y seguir escuchando.",
+"Hay cosas que solo aparecen cuando dejamos de apurarlas.",
+"No todos los caminos se reconocen desde el comienzo.",
+"El descanso también forma parte del recorrido.",
+"La curiosidad empieza cuando algo deja de parecernos obvio.",
+"Una mirada nueva puede cambiar un paisaje conocido.",
+"No siempre hace falta llenar el silencio.",
+"Hay encuentros que duran más que el tiempo que ocupan.",
+"Lo que no sabemos también merece un lugar en la conversación.",
+"Un gesto pequeño puede tener una historia larga.",
+"Aprender también es despedirse de algunas certezas.",
+"La atención es una forma cotidiana de cuidado.",
+"A veces el viaje cambia la pregunta, no la respuesta.",
+"Ningún recuerdo cuenta toda la historia.",
+"La paciencia no vuelve más corto el camino, pero cambia cómo lo vivimos.",
+"Una idea puede ser familiar y estar equivocada.",
+"Hay promesas que se cumplen en los detalles.",
+"No todas las despedidas significan que algo salió mal.",
+"El asombro no exige ir lejos.",
+"Entender a alguien no obliga a pensar igual.",
+"El presente también merece ser recordado.",
+"Hay decisiones que necesitan información, no más vueltas.",
+"Lo que parece poco desde afuera puede significar mucho desde adentro.",
+"La confianza se construye en momentos que nadie fotografía.",
+"A veces una buena pregunta es la mejor compañía.",
+"Cada persona conoce una parte del mundo que nosotros no.",
+"El miedo puede avisar; no siempre sabe decidir.",
+"Hay alegrías que no necesitan explicación.",
+"La distancia cambia el tamaño de algunas preocupaciones.",
+"No todo lo valioso se puede contar.",
+"Una mesa compartida también puede ser un lugar de encuentro.",
+"A veces reconocer un error es el comienzo de una idea mejor.",
+"Lo habitual puede esconder cosas extraordinarias.",
+"Estar disponible no es lo mismo que estar presente.",
+"Algunas respuestas llegan cuando dejamos espacio para escucharlas."
+].map((text,index)=>({id:"q"+String(index+1).padStart(3,"0"),text}));
+let shownQuoteId=null;
+function quoteForDate(now=new Date()){
+ const parts=new Intl.DateTimeFormat("en-US",{timeZone:"America/Argentina/Buenos_Aires",year:"numeric",month:"2-digit",day:"2-digit"}).formatToParts(now);
+ const part=t=>Number(parts.find(p=>p.type===t).value);
+ const day=Math.floor(Date.UTC(part("year"),part("month")-1,part("day"))/86400000);
+ return dailyQuotes[((day-20711)%dailyQuotes.length+dailyQuotes.length)%dailyQuotes.length];
+}
+function quoteVoteKey(id){return "lookin.quote.vote.v1."+id}
+function readQuoteVote(id){
+ const value=localStorage.getItem(quoteVoteKey(id));
+ return value==="like"||value==="dislike"?value:null;
+}
+function thumbSvg(vote){
+ return '<svg class="dq-thumb '+(vote==="dislike"?'dq-down':'')+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10v10H4V10h4Zm0 0 4-6c1-1 3 0 2.5 2L14 9h4.5c1.2 0 2 1 1.7 2.2l-1.5 7c-.2 1-1 1.8-2 1.8H8"/></svg>';
+}
+function paintQuoteVote(id,animate=false){
+ const area=document.getElementById("dailyQuoteActions");
+ area.replaceChildren();
+ let vote;try{vote=readQuoteVote(id)}catch{vote=null}
+ if(vote){
+  const result=document.createElement("span");
+  result.className="dq-voted"+(animate?" dq-animate":"");
+  result.setAttribute("role","status");
+  result.setAttribute("aria-label",vote==="like"?"Marcaste Me gusta. Voto guardado.":"Marcaste No me gusta. Voto guardado.");
+  result.innerHTML=thumbSvg(vote)+'<svg class="dq-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>';
+  area.append(result);return;
+ }
+ ["like","dislike"].forEach(vote=>{
+  const button=document.createElement("button");button.type="button";button.className="dq-button";
+  button.setAttribute("aria-label",vote==="like"?"Me gusta":"No me gusta");
+  button.title=vote==="like"?"Me gusta":"No me gusta";
+  button.innerHTML=thumbSvg(vote);button.onclick=()=>voteForQuote(id,vote);
+  area.append(button);
+ });
+}
+function refreshDailyQuote(){
+ const quote=quoteForDate();
+ if(shownQuoteId!==quote.id){
+  shownQuoteId=quote.id;
+  document.getElementById("dailyQuoteText").textContent="“"+quote.text+"”";
+  paintQuoteVote(quote.id);
+ }
+}
+async function voteForQuote(id,vote){
+ if(vote!=="like"&&vote!=="dislike")return;
+ if(quoteForDate().id!==id){refreshDailyQuote();return}
+ const save=()=>{
+  try{
+   if(readQuoteVote(id)){if(shownQuoteId===id)paintQuoteVote(id);return}
+   localStorage.setItem(quoteVoteKey(id),vote);
+   if(shownQuoteId===id)paintQuoteVote(id,true);
+  }catch{toast("No se pudo guardar el voto. Revisá el almacenamiento del navegador.")}
+ };
+ // Serializes votes across tabs in browsers that support Web Locks.
+ if(navigator.locks){await navigator.locks.request(quoteVoteKey(id),save)}else save();
+}
+refreshDailyQuote();
+setInterval(refreshDailyQuote,15000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)refreshDailyQuote()});
+window.addEventListener("storage",event=>{if(shownQuoteId&&event.key===quoteVoteKey(shownQuoteId))paintQuoteVote(shownQuoteId)});
+
 
 function showView(view){
   const isPlacard = view === "placard";
